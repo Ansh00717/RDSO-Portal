@@ -1,0 +1,159 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — RDSO Portal</title>
+
+    <link rel="stylesheet" href="{% static 'styles.css' %}?v=6">
+</head>
+  <body>
+    <!-- Overlay ambient particle background elements -->
+    <div class="ambient-glow">
+      <div class="glow-1"></div>
+      <div class="glow-2"></div>
+    </div>
+
+    <!-- Dashboard workspace wrapper -->
+    <div class="app-wrapper">
+
+      <!-- Dashboard Card -->
+      <div class="dashboard-card" id="dashboard-screen-deck">
+        
+        <!-- User profile title banner -->
+        <div class="dash-user-banner">
+          <div class="dash-profile">
+            <div class="dash-avatar">{{ initials }}</div>
+            <div>
+              <h2>
+                <span>{{ full_name }}</span>
+                <span class="badge-verified"><span class="badge-circle"></span>Verified</span>
+              </h2>
+              <div class="dash-email">{{ email }}</div>
+            </div>
+          </div>
+          <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="dash-logout-btn" id="dash-logout-trigger">
+              <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </form>
+        </div>
+
+        <!-- Dashboard tabs -->
+        <div class="dash-tabs">
+          <button type="button" class="dash-tab-item active" data-pane="pane-dash-overview">Overview</button>
+          <button type="button" class="dash-tab-item" data-pane="pane-dash-sessions">Sessions</button>
+          <button type="button" class="dash-tab-item" data-pane="pane-dash-settings">Security Settings</button>
+        </div>
+
+        <!-- 1. PANE: OVERVIEW -->
+        <div class="pane-content active" id="pane-dash-overview">
+          <div class="overview-grid">
+            <div class="metric-widget">
+              <div class="metric-label-box">
+                <span>Account</span>
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="metric-value">{{ full_name }}</div>
+              <div class="metric-subtext">Active User</div>
+            </div>
+
+            <div class="metric-widget">
+              <div class="metric-label-box">
+                <span>Email</span>
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><path d="M8 12h8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="metric-value" style="font-size:14px; word-break:break-all;">{{ email }}</div>
+              <div class="metric-subtext" style="color:#059669;">Verified</div>
+            </div>
+
+            <div class="metric-widget">
+              <div class="metric-label-box">
+                <span>Status</span>
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="metric-value" style="color:#059669;">Active</div>
+              <div class="metric-subtext">Logged In</div>
+            </div>
+
+            <div class="metric-widget">
+              <div class="metric-label-box">
+                <span>Security</span>
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="metric-value" style="color:#059669;">Protected</div>
+              <div class="metric-subtext">Session Encrypted</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. PANE: SESSIONS -->
+        <div class="pane-content" id="pane-dash-sessions">
+          <h4 class="section-lead-title">Current Session</h4>
+          <div class="shake-list-container">
+            <table class="h-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>{{ full_name }}</strong></td>
+                  <td>{{ email }}</td>
+                  <td><span style="color:#10b981; font-weight:700;">● Active</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 3. PANE: SECURITY SETTINGS -->
+        <div class="pane-content" id="pane-dash-settings">
+          <h4 class="section-lead-title">Security Information</h4>
+          
+          <div class="securing-item-row">
+            <div class="locking-desc-box">
+              <h5 class="locking-desc-title">Password Security</h5>
+              <p class="locking-desc-parac">Your password is securely hashed and stored. It is never stored in plain text.</p>
+            </div>
+            <span class="badge-verified"><span class="badge-circle"></span>Secure</span>
+          </div>
+
+          <div class="securing-item-row">
+            <div class="locking-desc-box">
+              <h5 class="locking-desc-title">Session Authentication</h5>
+              <p class="locking-desc-parac">Your session is managed by Django's built-in session framework with CSRF protection enabled.</p>
+            </div>
+            <span class="badge-verified"><span class="badge-circle"></span>Active</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Dashboard tab switching script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const dashTabItems = document.querySelectorAll('.dash-tab-item');
+      const dashPaneContents = document.querySelectorAll('.pane-content');
+
+      dashTabItems.forEach(tab => {
+        tab.addEventListener('click', () => {
+          dashTabItems.forEach(t => t.classList.remove('active'));
+          dashPaneContents.forEach(p => p.classList.remove('active'));
+          tab.classList.add('active');
+          const targetPaneId = tab.getAttribute('data-pane');
+          document.getElementById(targetPaneId).classList.add('active');
+        });
+      });
+    });
+    </script>
+  </body>
+</html>

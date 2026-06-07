@@ -1,0 +1,39 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Expired — RDSO Portal</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}?v=6">
+</head>
+  <body>
+    <div class="ambient-glow">
+      <div class="glow-1"></div>
+      <div class="glow-2"></div>
+    </div>
+
+    <div class="app-wrapper">
+      <div class="card-outlet" style="text-align: center; padding: 48px 40px;">
+        
+        <div class="success-icon-wrap" style="color: #f59e0b;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+
+        <h2 class="success-title">Session Expired</h2>
+        <p class="success-subtitle">
+          Your session has expired. Please refresh the page and try again.
+        </p>
+
+        <a href="{% url 'home' %}" class="action-submit-btn" style="display: inline-flex; text-decoration: none; max-width: 260px; margin: 24px auto 0;">
+          <span class="btn-text">Return to Sign In</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

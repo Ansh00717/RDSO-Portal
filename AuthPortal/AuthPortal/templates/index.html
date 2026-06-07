@@ -1,0 +1,143 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RDSO Portal</title>
+
+    <link rel="stylesheet" href="{% static 'styles.css' %}?v=6">
+</head>
+  <body>
+    <!-- Overlay ambient particle background elements -->
+    <div class="ambient-glow">
+      <div class="glow-1"></div>
+      <div class="glow-2"></div>
+    </div>
+
+    <!-- Pure static client center outlet workspace wrapper -->
+    <div class="app-wrapper">
+      
+      <!-- CARD OUTLET: Login / Registration Card Module -->
+      <div class="card-outlet" id="auth-screen-deck" {% if show_register %}data-show-register="true"{% endif %}>
+        
+        <!-- Form Selector Navigation Section Header -->
+        <div class="form-tabs">
+          <button type="button" class="tab-btn {% if not show_register %}active{% endif %}" id="tab-login-btn">Sign In</button>
+          <button type="button" class="tab-btn {% if show_register %}active{% endif %}" id="tab-register-btn">Create Account</button>
+        </div>
+
+        <!-- 1. SIGN IN FORM PANEL VIEW -->
+        <div id="pane-login" class="screen {% if not show_register %}active{% endif %}">
+
+          {% if login_error %}
+          <div class="form-error-banner">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>{{ login_error }}</span>
+          </div>
+          {% endif %}
+
+          <form id="login-form" method="POST" action="{% url 'login' %}" autocomplete="off">
+            {% csrf_token %}
+            <!-- Email label container -->
+            <div class="field-wrapper">
+              <label for="login-email" class="field-label">Email address</label>
+              <div class="input-container">
+                <input type="email" id="login-email" name="email" class="textbox" placeholder="" required autocomplete="off">
+              </div>
+              <div class="error-tip" id="err-login-email">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span>Please enter a valid email address</span>
+              </div>
+            </div>
+
+            <!-- Password field container -->
+            <div class="field-wrapper">
+              <label for="login-pass" class="field-label">Password</label>
+              <div class="input-container">
+                <input type="password" id="login-pass" name="password" class="textbox" placeholder="" required autocomplete="off">
+                <!-- Show hide eye btn toggle -->
+                <button type="button" class="input-action-btn" id="login-pass-toggle" title="Reveal password">
+                  <svg id="eye-icon-login" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div class="error-tip" id="err-login-pass">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span>Password must be at least 6 characters</span>
+              </div>
+            </div>
+
+            <!-- Sign in submits to Django login view -->
+            <button type="submit" class="action-submit-btn" id="login-submit-btn">
+              <span class="btn-text">Sign In</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+            <div style="text-align: right; margin-top: 12px;">
+              <a href="{% url 'password_reset' %}" style="color: #2563eb; text-decoration: none; font-size: 13px; font-weight: 500;">Forgot Password?</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- 2. SIGN UP REGISTRATION PANEL VIEW -->
+        <div id="pane-register" class="screen {% if show_register %}active{% endif %}">
+
+          {% if form.errors %}
+          <div class="form-error-banner">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div>
+              {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                  <span>{{ error }}</span><br>
+                {% endfor %}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <form id="register-form" method="POST" action="{% url 'register' %}" autocomplete="off">
+            {% csrf_token %}
+            <!-- First Name and Last Name side-by-side -->
+            <div class="name-row">
+              <div class="field-wrapper">
+                <label for="reg-first-name" class="field-label">First Name</label>
+                <div class="input-container">
+                  <input type="text" id="reg-first-name" name="first_name" class="textbox" placeholder="" required autocomplete="off" value="{{ form.first_name.value|default:'' }}">
+                </div>
+              </div>
+             
+              <div class="field-wrapper">
+                <label for="reg-last-name" class="field-label">Last Name</label>
+                <div class="input-container">
+                  <input type="text" id="reg-last-name" name="last_name" class="textbox" placeholder="" required autocomplete="off" value="{{ form.last_name.value|default:'' }}">
+                </div>
+              </div>
+            </div>
+
+            <!-- Email label container -->
+            <div class="field-wrapper">
+              <label for="reg-email" class="field-label">Email address</label>
+              <div class="input-container">
+                <input type="email" id="reg-email" name="email" class="textbox" placeholder="" required autocomplete="off" value="{{ form.email.value|default:'' }}">
+              </div>
+            </div>
+            
+            <div class="captcha-wrapper">
+              {{ form.captcha }}
+            </div>
+
+            <!-- Submit creation button -->
+            <button type="submit" class="action-submit-btn" id="reg-submit-btn" style="margin-top: 8px;">
+              <span class="btn-text">Create Account</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Minimal UI-only JavaScript -->
+    <script src="{% static 'script.js' %}?v=6"></script>
+  </body>
+</html>

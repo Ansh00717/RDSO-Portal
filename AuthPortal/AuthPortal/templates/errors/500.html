@@ -1,0 +1,26 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Error — RDSO Portal</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}?v=6">
+</head>
+  <body>
+    <div class="ambient-glow">
+      <div class="glow-1"></div>
+      <div class="glow-2"></div>
+    </div>
+    <div class="app-wrapper">
+      <div class="card-outlet" style="text-align: center; padding: 48px 40px;">
+        <h2 class="success-title" style="font-size: 48px; margin-bottom: 8px;">500</h2>
+        <p class="success-subtitle">Something went wrong. Please try again later.</p>
+        <a href="/" class="action-submit-btn" style="display: inline-flex; text-decoration: none; max-width: 260px; margin: 24px auto 0;">
+          <span class="btn-text">Go to Home</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>
